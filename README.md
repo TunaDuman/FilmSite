@@ -3,6 +3,12 @@
 
 cd backend
 npm install
+
+backend/.dev.vars.example dosyasının adını .dev.vars olarak değiştirin ve içerisine kendi TMDB API Read Access Token (Bearer) anahtarınızı ekleyin:
+
+frontend/.env.example dosyasının adını .env.local olarak değiştirin:
+
+//Database
 npx wrangler d1 execute movie-portal-db --local --file=./schema.sql
 
 //(FRONTEND)
@@ -15,13 +21,16 @@ npm install
 .dev.vars.example
 Dosyalarının içerisi kontrol edilmeli.
 
-frontend/.env.example dosyasının adını .env.local olarak değiştirin:
-
-backend/.dev.vars.example dosyasının adını .dev.vars olarak değiştirin ve içerisine kendi TMDB API Read Access Token (Bearer) anahtarınızı ekleyin:
-
-//yerel sunucu
-npx wrangler d1 execute movie-portal-db --local --file=./schema.sql
-
+  //Run
+  -terminal1:
+  cd backend
+  npm run dev
+  (http://localhost:8787 başlatır.)
+  
+  -terminal2:
+  cd frontend
+  npm run dev
+  (http://localhost:5173 başlatır.)
 
 //Auth
 - `user1@proje.com` (`movie_only`): Sadece popüler filmleri listeler, arama yapar, puan/not verir ve film önerir.
