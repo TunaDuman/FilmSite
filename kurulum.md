@@ -27,3 +27,5 @@ npx wrangler d1 execute movie-portal-db --local --file=./schema.sql
 - `user1@proje.com` (`movie_only`): Sadece popüler filmleri listeler, arama yapar, puan/not verir ve film önerir.
 - `user2@proje.com` (`actor_only`): Sadece popüler oyuncuları listeler ve oyuncu araması yapar.
 - `user3@proje.com` (`both`): Hem film hem oyuncu ekranlarına tam erişim sağlar.
+Hepsinin şifresi: Patatesadam0912_
+Eğer farklı bir hesapla giriş yapmak denenirse ('both') yetkisi verilir.
