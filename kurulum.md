@@ -29,3 +29,5 @@ npx wrangler d1 execute movie-portal-db --local --file=./schema.sql
 - `user3@proje.com` (`both`): Hem film hem oyuncu ekranlarına tam erişim sağlar.
 Hepsinin şifresi: Patatesadam0912_
 Eğer farklı bir hesapla giriş yapmak denenirse ('both') yetkisi verilir.
+
+NOT:"Network connection lost." hatasıyla karşılaşırsanız. DNS veya VPN kullanımında TMDB database'ine bağlantı sağlayamayabiliyor bunu çözmek için clouflare WARP uygulamasını kullanabilirsiniz.
