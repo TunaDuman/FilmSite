@@ -1,6 +1,5 @@
-//Dosyanın içerisinde cmd satırına;
+Dosyanın içerisinde cmd satırına;
 (BACKEND)
-
 cd backend
 npm install
 
@@ -8,20 +7,20 @@ backend/.dev.vars.example dosyasının adını .dev.vars olarak değiştirin ve 
 
 frontend/.env.example dosyasının adını .env.local olarak değiştirin:
 
-//Database
+Database
 npx wrangler d1 execute movie-portal-db --local --file=./schema.sql
 
-//(FRONTEND)
+(FRONTEND)
 
 cd frontend
 npm install
 
-//Keyler
+Keyler
 .env.example
 .dev.vars.example
 Dosyalarının içerisi kontrol edilmeli.
 
-  //Run
+  Run
   -terminal1:
   cd backend
   npm run dev
@@ -32,7 +31,7 @@ Dosyalarının içerisi kontrol edilmeli.
   npm run dev
   (http://localhost:5173 başlatır.)
 
-//Auth
+Auth
 - `user1@proje.com` (`movie_only`): Sadece popüler filmleri listeler, arama yapar, puan/not verir ve film önerir.
 - `user2@proje.com` (`actor_only`): Sadece popüler oyuncuları listeler ve oyuncu araması yapar.
 - `user3@proje.com` (`both`): Hem film hem oyuncu ekranlarına tam erişim sağlar.
