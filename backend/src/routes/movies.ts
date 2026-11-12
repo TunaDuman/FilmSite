@@ -26,40 +26,77 @@ movies.get('/', async (c) => {
 movies.get('/suggestions', async (c) => {
   try {
     const user = c.get('user');
+
+    await c.env.DB.prepare(`
+      CREATE TABLE IF NOT EXISTS movie_suggestions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id TEXT NOT NULL,
+        movie_title TEXT NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `).run();
+
     const { results } = await c.env.DB.prepare(
       'SELECT id, user_id, movie_title, created_at FROM movie_suggestions WHERE user_id = ? ORDER BY id DESC'
     ).bind(user.id).all();
+
     return c.json({ results: results || [] });
   } catch (err: any) {
-    return c.json({ error: err.message }, 500);
+    return c.json({ error: err.message || 'Oneriler alinamadi.' }, 500);
   }
 });
 
 movies.post('/suggest', async (c) => {
-  const user = c.get('user');
-  const body = await c.req.json();
-  const movieTitle = body.movieTitle?.trim();
+  try {
+    const user = c.get('user');
+    const body = await c.req.json();
+    const movieTitle = body.movieTitle?.trim();
 
-  if (!movieTitle) {
-    return c.json({ error: 'Film adı boş olamaz.' }, 400);
+    if (!movieTitle) {
+      return c.json({ error: 'Film adi bos olamaz.' }, 400);
+    }
+    await c.env.DB.prepare(`
+      CREATE TABLE IF NOT EXISTS movie_suggestions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        user_id TEXT NOT NULL,
+        movie_title TEXT NOT NULL,
+        created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+      )
+    `).run();
+
+    await c.env.DB.prepare(
+      'INSERT INTO movie_suggestions (user_id, movie_title) VALUES (?, ?)'
+    ).bind(user.id, movieTitle).run();
+
+    return c.json({ success: true, message: 'Film onerisi kaydedildi.' });
+  } catch (err: any) {
+    return c.json({ error: err.message || 'Film onerisi kaydedilirken hata olustu.' }, 500);
   }
-
-  await c.env.DB.prepare(
-    'INSERT INTO movie_suggestions (user_id, movie_title) VALUES (?, ?)'
-  ).bind(user.id, movieTitle).run();
-
-  return c.json({ success: true, message: 'Film onerisi kaydedildi.' });
 });
 
 movies.get('/reviews', async (c) => {
   try {
     const user = c.get('user');
+
+    await c.env.DB.prepare(`
+      CREATE TABLE IF NOT EXISTS movie_reviews (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        movie_id INTEGER NOT NULL,
+        user_id TEXT NOT NULL,
+        rating INTEGER NOT NULL CHECK(rating >= 1 AND rating <= 10),
+        note TEXT,
+        updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+        UNIQUE(movie_id, user_id)
+      )
+    `).run();
+
     const { results } = await c.env.DB.prepare(
       'SELECT id, movie_id, user_id, rating, note, updated_at FROM movie_reviews WHERE user_id = ? ORDER BY id DESC'
     ).bind(user.id).all();
+
     return c.json({ results: results || [] });
   } catch (err: any) {
-    return c.json({ error: err.message }, 500);
+    return c.json({ error: err.message || 'Notlar alinamadi.' }, 500);
   }
 });
 
